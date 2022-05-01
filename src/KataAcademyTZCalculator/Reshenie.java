@@ -7,6 +7,7 @@ public class Reshenie {
         if (minus > 0) res = a - b;
         if (umn > 0) res = a * b;
         if (del > 0) res = a / b;
+        //System.out.println(res + " " + a + " " + b);
         return res;
     }
 }

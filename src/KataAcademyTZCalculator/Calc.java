@@ -25,9 +25,11 @@ public class Calc {
         this.brim = brim;
     }
 
-    public static String calc(String input){
-        String line = input.replaceAll("\\s+", "");
+    public static String calc(String line){
+
+        //String line = input.replaceAll("\\s+", "");
         //System.out.println(line);
+        //Pattern pattern1 = Pattern.compile([^1-10][^+ - * /])
         plus = line.indexOf("+");
 
         if (plus > 0) {
@@ -55,10 +57,6 @@ public class Calc {
             b = line.substring(del + 1);
             //System.out.println(a + "\n" + b);
         }
-                                                                                /*System.out.println("plus = " + plus);
-                                                                                System.out.println("minus = " + minus);
-                                                                                System.out.println("umn = " + umn);
-                                                                                System.out.println("del = " + del);*/
 
         switch (a) {
             case "I":
@@ -167,20 +165,24 @@ public class Calc {
                 break;
             default: break;
         }
-                                                                                /*System.out.println("arim = " + arim +"\n" +
-                                                                                                    "brim = " + brim);*/
 
-        if (arim == true && brim != true || arim != true && brim == true)
-        {
-            System.out.println("ОШИБКА: нельзя совмещать римские и арабские цифры!");
-            System.exit(0);
-        }
-        int aInt = Integer.parseInt(a);// переводим первое в int
-        int bInt = Integer.parseInt(b);// переводим второе в int
+        if ((arim == true && brim != true) || (arim != true && brim == true))
+            try
+            {
+                throw new Exception();
+            }
+                catch (Exception e)
+               {
+                    System.out.println("ОШИБКА: нельзя совмещать римские и арабские цифры!");
+                    System.exit(0);
+               }
+
+        int aInt = Integer.parseInt(a);
+        int bInt = Integer.parseInt(b);
+        //System.out.println(aInt + " " + bInt);
 
         int resultInt = Reshenie.reshenie(aInt, bInt, plus, minus, umn, del);
-        //System.out.println("resultInt = " + resultInt);
-        //System.out.println("resultString = " + resultString);
+
         if( resultInt < 0 && (arim == true && brim == true)){
             System.out.println("Если заданы римские цифры результат не может быть меньше 0");
             System.exit(0);
