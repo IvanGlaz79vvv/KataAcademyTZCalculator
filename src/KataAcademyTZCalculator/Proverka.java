@@ -16,8 +16,8 @@ public class Proverka {
             try{throw new Exception();}
             catch (Exception e)
             {
-                System.out.println("\nОШИБКА: Должна быть только одна операция.");
-                System.exit(1);
+                System.out.println("ОШИБКА: формат математической операции не удовлетворяет заданию - два операнда и один оператор (+, -, /, *).");
+                System.exit(0);
             }
     }
 }

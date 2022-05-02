@@ -11,7 +11,7 @@ public class Vvod {
 
     static String inCount(){
         Scanner scan = new Scanner(System.in);
-        System.out.println("\nВведите выражение: ");
+        System.out.println("\nВведите выражение: \n(для выхода нажмите е)");
         String input = scan.nextLine().replaceAll("\\s+", "");
         if (input.equals("е") || input.equals("e")) {
             System.out.println("Завершение программы.");

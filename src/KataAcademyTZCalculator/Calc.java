@@ -4,10 +4,12 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Calc {
-    private static int plus;
-    private static int minus;
-    private static int umn;
-    private static int del;
+     static int plus;
+     static int minus;
+     static int umn;
+     static int del;
+     static int aInt;
+     static int bInt;
 
     private String a;
     private String b;
@@ -29,12 +31,16 @@ public class Calc {
         this.b = b;
         this.arim = arim;
         this.brim = brim;
+        this.aInt = aInt;
+        this.bInt = bInt;
+
     }
 
     public void calc(String input) {
         StringBuilder line = new StringBuilder(input);
 
             plus = line.indexOf("+");
+        //System.out.println("\nplus = " + plus);
             if (plus > 0) {
                 a = line.substring(0, plus);
                 b = line.substring(plus + 1);
@@ -42,8 +48,8 @@ public class Calc {
                 Proverka.vyhodEsliBOlshe(n);
             }
 
-
             minus = line.indexOf("-");
+        //System.out.println("minus = " + minus);
             if (minus > 0) {
                 a = line.substring(0, minus);
                 b = line.substring(minus + 1);
@@ -52,8 +58,8 @@ public class Calc {
                 Proverka.vyhodEsliBOlshe(n);
                 }
 
-
             umn = line.indexOf("*");
+        //System.out.println("umn = " + umn);
             if (umn > 0) {
                 a = line.substring(0, umn);
                 b = line.substring(umn + 1);
@@ -63,6 +69,7 @@ public class Calc {
             }
 
             del = line.indexOf("/");
+        //System.out.println("del = " + del);
             if (del > 0) {
                 a = line.substring(0, del);
                 b = line.substring(del + 1);
@@ -71,8 +78,28 @@ public class Calc {
                 Proverka.vyhodEsliBOlshe(n);
             }
 
+        //System.out.println("До перевода в Integer:\na = " + a + "\nb = " + b);
+        try{aInt = Integer.parseInt(a.trim());}
+        catch (Exception e) {
+            System.out.println("(a) ОШИБКА: Введено не целое число.\nЗавершение программы.");
+            System.exit(0);
+        }
 
 
+        try{bInt = Integer.parseInt(b.trim());}// переводим второе в int
+        catch(Exception e)
+        {
+            System.out.println("(b) ОШИБКА: Введено не целое число.\nЗавершение программы.");
+            System.exit(0);
+        }
+
+        if(plus < 0 && minus < 0 && umn < 0 && del < 0)
+            try{throw new Exception();}
+        catch (Exception e)
+        {
+            System.out.println("Cтрока не является математической операцией.\nЗавершение программы.");
+            System.exit(0);
+        }
 
                 switch (a) {
                     case "I":
@@ -125,7 +152,7 @@ public class Calc {
                         arim = true;
                         //System.out.println("Римская цифра a = " + a);
                         break;
-                    default:
+                    default: arim = false;
                         break;
                 }
 
@@ -180,34 +207,39 @@ public class Calc {
                         brim = true;
                         //System.out.println("Римская цифра b = " + b);
                         break;
-                    default:
+                    default: brim = false;
                         break;
                 }
 
                 if (arim == true && brim != true || arim != true && brim == true)
-                    try {
-                        throw new Exception();
-                    } catch (Exception e) {
-                        System.out.println("ОШИБКА: нельзя совмещать римские и арабские цифры!");
-                        System.exit(1);
+                    try {throw new Exception();}
+                    catch (Exception e)
+                    {
+                        System.out.println("ОШИБКА: нельзя совмещать римские и арабские цифры.\nЗавершение программы.");
+                        System.exit(0);
                     }
 
-                int aInt = Integer.parseInt(a);// переводим первое в int
-                int bInt = Integer.parseInt(b);// переводим второе в int
-                if(aInt > 10) System.out.println("aInt > 10");
-                if(bInt > 10) System.out.println("bInt > 10");
-
-
-
-                int resultInt = Reshenie.reshenie(aInt, bInt, plus, minus, umn, del);
-                //System.out.println("resultInt = " + resultInt);
-                //System.out.println("resultString = " + resultString);
-                if (resultInt < 0 && (arim == true && brim == true)) {
-                    System.out.println("Если заданы римские цифры результат не может быть меньше 0");
+                if(aInt > 10 || bInt > 10)
+                    try{throw new Exception();}
+                catch (Exception e)
+                {
+                    System.out.println("ОШИБКА: разрешены числа от 1 до 10 включительно.\nЗавершение программы.");
                     System.exit(0);
                 }
 
-                resultString = Integer.toString(resultInt);
+                int resultInt = Reshenie.reshenie(aInt, bInt, plus, minus, umn, del);
+
+                if (resultInt < 0 && (arim == true && brim == true)) {
+                    System.out.println("Если заданы римские цифры результат не может быть меньше 0.\nЗавершение программы.");
+                    System.exit(0);
+                }
+
+        resultString = Integer.toString(resultInt);
+
+                if (resultInt > 0 && (arim != true && brim != true)) {
+                System.out.println(resultInt);
+                }
+
                 if (resultInt > 0 && (arim == true && brim == true)) {
                     switch (resultInt) {
                         case 1:
@@ -271,7 +303,7 @@ public class Calc {
                             resultString = "XX";
                             break;
                     }
+                    System.out.println(resultString);
                 }
-                System.out.println(resultString);
     }
 }
