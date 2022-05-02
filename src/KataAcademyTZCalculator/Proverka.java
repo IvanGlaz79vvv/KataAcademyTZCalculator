@@ -4,10 +4,11 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Proverka {
-    public static int ProverkaKolichestvaOperaciy(StringBuilder input, int count){
-        Pattern patternFindPlus = Pattern.compile("\\+");
-        Matcher findMatcherPlus = patternFindPlus.matcher(input);
-        while(findMatcherPlus.find()){count++;}
+    public static int ProverkaKolichestvaOperaciy(StringBuilder line, int count, int znak){
+        for(int i = 0; i < line.length(); i++){
+            znak = line.indexOf("+", znak+1);
+            count++;
+        }
         return count;
     }
 

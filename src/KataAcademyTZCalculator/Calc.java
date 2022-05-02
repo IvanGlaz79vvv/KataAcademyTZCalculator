@@ -4,10 +4,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Calc {
-     static int plus;
-     static int minus;
-     static int umn;
-     static int del;
+     static int plus = 0;
+     static int minus = 0;
+     static int umn = 0;
+     static int del = 0;
      static int aInt;
      static int bInt;
 
@@ -39,12 +39,18 @@ public class Calc {
     public void calc(String input) {
         StringBuilder line = new StringBuilder(input);
 
-            plus = line.indexOf("+");
+        /*for(int i = 0; i < line.length(); i++){
+            plus = line.indexOf("+", plus+1);
+            count++;
+        }*/
+
+
+        plus = line.indexOf("+");
         //System.out.println("\nplus = " + plus);
             if (plus > 0) {
                 a = line.substring(0, plus);
                 b = line.substring(plus + 1);
-                n = Proverka.ProverkaKolichestvaOperaciy(line, count);
+                n = Proverka.ProverkaKolichestvaOperaciy(line, count, plus);
                 Proverka.vyhodEsliBOlshe(n);
             }
 
@@ -54,7 +60,7 @@ public class Calc {
                 a = line.substring(0, minus);
                 b = line.substring(minus + 1);
                     //System.out.println(a + "\n" + b);
-                n = n + Proverka.ProverkaKolichestvaOperaciy(line, count);
+                n = n + Proverka.ProverkaKolichestvaOperaciy(line, count, minus);
                 Proverka.vyhodEsliBOlshe(n);
                 }
 
@@ -64,7 +70,7 @@ public class Calc {
                 a = line.substring(0, umn);
                 b = line.substring(umn + 1);
             //System.out.println(a + "\n" + b);
-                n = n + Proverka.ProverkaKolichestvaOperaciy(line, count);
+                n = n + Proverka.ProverkaKolichestvaOperaciy(line, count, umn);
                 Proverka.vyhodEsliBOlshe(n);
             }
 
@@ -74,24 +80,9 @@ public class Calc {
                 a = line.substring(0, del);
                 b = line.substring(del + 1);
             //System.out.println(a + "\n" + b);
-                n = n + Proverka.ProverkaKolichestvaOperaciy(line, count);
+                n = n + Proverka.ProverkaKolichestvaOperaciy(line, count, del);
                 Proverka.vyhodEsliBOlshe(n);
             }
-
-        //System.out.println("До перевода в Integer:\na = " + a + "\nb = " + b);
-        try{aInt = Integer.parseInt(a.trim());}
-        catch (Exception e) {
-            System.out.println("(a) ОШИБКА: Введено не целое число.\nЗавершение программы.");
-            System.exit(0);
-        }
-
-
-        try{bInt = Integer.parseInt(b.trim());}// переводим второе в int
-        catch(Exception e)
-        {
-            System.out.println("(b) ОШИБКА: Введено не целое число.\nЗавершение программы.");
-            System.exit(0);
-        }
 
         if(plus < 0 && minus < 0 && umn < 0 && del < 0)
             try{throw new Exception();}
@@ -211,13 +202,42 @@ public class Calc {
                         break;
                 }
 
-                if (arim == true && brim != true || arim != true && brim == true)
-                    try {throw new Exception();}
-                    catch (Exception e)
-                    {
-                        System.out.println("ОШИБКА: нельзя совмещать римские и арабские цифры.\nЗавершение программы.");
-                        System.exit(0);
-                    }
+        //System.out.println("До перевода в Integer:\na = " + a + "\nb = " + b);
+
+        //System.out.println("\n(b)arim = " + arim + "\nbrim = " + brim);
+        if(arim == false)
+        {
+            try
+            {
+                aInt = Integer.parseInt(a.trim());
+            }
+            catch (NumberFormatException e) {
+                System.out.println("\nОШИБКА: Введено не целое число. (" + "a = " + a + ")" + "\nЗавершение программы.");
+                System.exit(0);
+            }
+        }
+
+        if(brim == false)
+        {
+            try
+            {
+                bInt = Integer.parseInt(b.trim());
+            }
+            catch (NumberFormatException e) {
+                System.out.println("\nОШИБКА: Введено не целое число. (" + "b = " + b + ")" + "\nЗавершение программы.");
+                System.exit(0);
+            }
+        }
+
+
+        if (arim == true && brim != true || arim != true && brim == true)
+        try {throw new Exception();}
+        catch (Exception e)
+        {
+        System.out.println("ОШИБКА: нельзя совмещать римские и арабские цифры.\nЗавершение программы.");
+        System.exit(0);
+        }
+
 
                 if(aInt > 10 || bInt > 10)
                     try{throw new Exception();}
