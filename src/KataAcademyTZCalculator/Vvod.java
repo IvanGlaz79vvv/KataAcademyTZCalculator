@@ -1,15 +1,10 @@
 package KataAcademyTZCalculator;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-public class Vvod {
+class Vvod {
 
-
-    static String inCount(){
+    static String inCount() {
         Scanner scan = new Scanner(System.in);
         System.out.println("\nВведите выражение: \n(для выхода нажмите е)");
         String input = scan.nextLine().replaceAll("\\s+", "");
@@ -17,6 +12,19 @@ public class Vvod {
             System.out.println("Завершение программы.");
             System.exit(0);
         }
+
+        int count = 0;
+        String znakPlus = "\\+";
+        int n = Proverka.ProverkaKolichestvaOperaciy(input, znakPlus, count);// ОШИБКА: проверка количества операций
+        String znakMinus = "\\-";
+        n = n + Proverka.ProverkaKolichestvaOperaciy(input, znakMinus, count);
+        String znakUmn = "\\*";
+        n = n + Proverka.ProverkaKolichestvaOperaciy(input, znakUmn, count);
+        String znakDel = "\\/";
+        n = n + Proverka.ProverkaKolichestvaOperaciy(input, znakDel, count);
+
+        Proverka.vyhodEsliBolshe(n);// ОШИБКА: проверка количества операций
+
         return input;
     }
 }
